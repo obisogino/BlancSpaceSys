@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class Order {
+
     Long itemId;
 
     String itemName;
@@ -12,4 +13,6 @@ public class Order {
     String itemDesc;
 
     String discountNote;
+
+    Double amount;
 }
