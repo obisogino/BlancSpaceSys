@@ -1,4 +1,4 @@
-package com.blancspace.rewardsservice;
+package com.blancspace.userrewardsservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

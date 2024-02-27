@@ -1,4 +1,4 @@
-package com.blancspace.rewardsservice.entity;
+package com.blancspace.userrewardsservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,9 +1,7 @@
-package com.blancspace.rewardsservice.entity;
+package com.blancspace.userrewardsservice.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Date;
 import java.util.Set;
@@ -34,6 +32,9 @@ public class UserReward {
 
     @Column(name = "rewardPrize")
     private String rewardPrize;
+
+    @Column(name = "isActive")
+    private boolean isActive;
 
     @OneToMany(mappedBy="userReward")
     private Set<Reward> items;
