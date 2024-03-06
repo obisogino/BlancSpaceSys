@@ -1,9 +1,11 @@
 package com.blancspace.userrewardsservice;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
+//@EnableAutoConfiguration
 public class RewardsServiceApplication {
 
 	public static void main(String[] args) {

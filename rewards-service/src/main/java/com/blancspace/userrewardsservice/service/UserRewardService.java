@@ -1,39 +1,39 @@
 package com.blancspace.userrewardsservice.service;
 
 import com.blancspace.userrewardsservice.entity.Reward;
+import com.blancspace.userrewardsservice.entity.RuleSet;
 import com.blancspace.userrewardsservice.entity.UserReward;
 import com.blancspace.userrewardsservice.repository.RewardRepository;
+import com.blancspace.userrewardsservice.repository.RuleSetRepository;
 import com.blancspace.userrewardsservice.repository.UserRewardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
 public class UserRewardService {
-
-    private final UserRewardRepository userRewardRepository;
-    private final RewardRepository rewardRepository;
-
     @Autowired
-    public UserRewardService(UserRewardRepository userRewardRepository, RewardRepository rewardRepository) {
-        this.userRewardRepository = userRewardRepository;
-        this.rewardRepository = rewardRepository;
-    }
+    private UserRewardRepository userRewardRepository;
+    @Autowired
+    private RewardRepository rewardRepository;
+    @Autowired
+    private RuleSetRepository ruleSetRepository;
 
-    public UserReward fetchRewardsByUserId(String userId) {
-        return userRewardRepository.findByUser(userId);
-    }
+//    public UserReward fetchRewardsByUserId(String userId) {
+//        return userRewardRepository.findByUser(userId);
+//    }
 
-    public void logRewardToUserReward(String userId) throws Exception {
+    public UserReward logRewardToUserReward(String uuid) throws Exception {
         // Fetch user reward
-        UserReward userReward = userRewardRepository.findByUser(userId);
+        UserReward userReward = userRewardRepository.findByUuid(uuid);
         if (userReward == null) {
-            throw new Exception("User reward not found for user: " + userId);
+            userReward = new UserReward();
+            userReward.setUuid(uuid);
+            userReward.setDateStarted(new Date());
+
         }
 
         // Find the highest count in the set of rewards
@@ -48,10 +48,24 @@ public class UserRewardService {
 
         // Check if the newly logged reward reached its limit
         if (newCnt > userReward.getLmt()) {
-            throw new Exception("Reward limit reached for user: " + userId);
+            throw new Exception("Reward limit reached for this QR code");
         }
 
+
         // Save the new reward
-        rewardRepository.save(newReward);
+        userReward = userRewardRepository.save(userReward);
+
+        newReward.setUserReward(userReward);
+        // Save the new reward
+        Reward reward = rewardRepository.save(newReward);
+
+
+        return userReward;
     }
+
+
+    public List<RuleSet> getActiveBatch(String batchId) {
+        return ruleSetRepository.findActiveRuleSetByBatchId(batchId);
+    }
+
 }

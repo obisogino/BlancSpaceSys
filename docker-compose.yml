@@ -1,31 +1,3 @@
-# name: blancspace
-# version: '3.1'
-# services:
-#   db:
-#     image: mysql:latest
-#     command: --default-authentication-plugin=mysql_native_password
-#     restart: always
-#     environment:
-#       MYSQL_ROOT_PASSWORD: password
-#       MYSQL_DATABASE: blancdb
-#       MYSQL_USER: 
-#       MYSQL_PASSWORD: 
-#     ports:
-#         - 3306:3306
-#     volumes: 
-#       #named volume
-#       - mysql-data:/var/lib/mysql
-#       
-#   adminer:
-#     image: adminer
-#     restart: always
-#     ports:
-#       - 8089:8080
-#       
-# volumes:
-#   mysql-data:
-
-######
 
 version: '3.1'
 services:
@@ -37,7 +9,7 @@ services:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: blancdb
       MYSQL_USER: blancdb
-      MYSQL_PASSWORD: Blancdb123!
+      MYSQL_PASSWORD: password
     ports:
       - 3306:3306
     volumes:
@@ -49,30 +21,50 @@ services:
     ports:
       - 8089:8080
 
+
+      ## QUAY IMAGE
+
+  # keycloak:
+  #   image: quay.io/keycloak/keycloak:22.0.5     
+  #   command: start-dev
+  #   environment:
+  #     KC_DB: mysql
+  #     KC_DB_URL_HOST: db
+  #     KC_DB_URL_DATABASE: blancdb
+  #     KC_DB_URL_PASSWORD: password
+  #     # KC_DB_SCHEMA
+  #     KEY
+
+      ## JBOSS IMAGE
+
+    # kc-db:
+    #   image: mysql:latest
+    #     ports:
+    #       - 3366:3306
+    #     restart: unless-stopped
+    #     environment:
+    #       # The user, password and database that Keycloak
+    #       # is going to create and use
+    #       MYSQL_USER: blancdb
+    #       MYSQL_PASSWORD: password
+    #       MYSQL_DATABASE: blanckc
+    #       MYSQL_ROOT_PASSWORD: password
+    #   volumes:
+    #     -keycloak-and-mysg1-volume:/var/lib/mysal
+    #   networks:
+    #     - keycloak-and-mysql-network
+
+    #   keycloak-w:
+    #     image: jboss/keycloak:16.1.0
+    #     ports:
+    #       - 9081:8089
+    #     restart: unless-stopped
+    #     environment:
+    #       # User and password for the Administration Console
+    #       KEYCLOAK_USER=admin
+    #       KEYCLOAK_PASSWORD=password
+    #       DB_VENDOR-mysql
 volumes:
   mysql-data:
 
 
-# docker run --name mysqltest -e MYSQL_ROOT_PASSWORD=password -d mysql:tag
-
-
-# version: '3.8'
-# services:
-#   mysql:
-#     image: mysql:8.0
-#     ports:
-#       - "3306:3306"
-#     environment:
-#       MYSQL_ROOT_PASSWORD: password
-#       MYSQL_DATABASE: blancdb
-#     volumes:
-#       - mysql-data:/var/lib/mysql
-#       
-#       
-#   adminer:
-#     image: adminer
-#     restart: always
-#     ports:
-#       - 8080:8080
-# volumes:
-#   mysql-data:

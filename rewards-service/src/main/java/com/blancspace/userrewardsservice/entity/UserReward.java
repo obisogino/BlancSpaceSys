@@ -18,6 +18,9 @@ public class UserReward {
     @Column(name = "user")
     private String user;
 
+    @Column(name = "uuid")
+    private String uuid;
+
     @Column(name = "lmt")
     private int lmt;
 
