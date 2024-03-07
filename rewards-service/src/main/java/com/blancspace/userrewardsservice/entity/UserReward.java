@@ -40,6 +40,6 @@ public class UserReward {
     private boolean isActive;
 
     @OneToMany(mappedBy="userReward")
-    private Set<Reward> items;
+    private Set<Reward> rewards;
 
 }
