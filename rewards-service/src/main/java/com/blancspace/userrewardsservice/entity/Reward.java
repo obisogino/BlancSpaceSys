@@ -1,12 +1,17 @@
 package com.blancspace.userrewardsservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "Reward")
 public class Reward
 {
@@ -20,7 +25,8 @@ public class Reward
     @Column(name = "date")
     private Date date;
 
-    @ManyToOne
-    @JoinColumn(name="user_reward_id", nullable=false)
-    private UserReward userReward;
+//    @JsonBackReference
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name="user_reward_id")
+//    private UserReward userReward;
 }

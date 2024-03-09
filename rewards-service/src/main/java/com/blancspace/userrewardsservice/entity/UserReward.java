@@ -1,13 +1,17 @@
 package com.blancspace.userrewardsservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "UserReward")
 public class UserReward {
 
@@ -24,6 +28,9 @@ public class UserReward {
     @Column(name = "lmt")
     private int lmt;
 
+    @Column(name = "cnt")
+    private int cnt;
+
     @Column(name = "dateStarted")
     private Date dateStarted;
 
@@ -39,7 +46,11 @@ public class UserReward {
     @Column(name = "isActive")
     private boolean isActive;
 
-    @OneToMany(mappedBy="userReward")
+//    @JsonManagedReference
+    @OneToMany(targetEntity=Reward.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="reward_fk", referencedColumnName = "id")
     private Set<Reward> rewards;
 
+//    public UserReward(UserReward userReward) {
+//    }
 }

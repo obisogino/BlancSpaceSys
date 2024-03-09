@@ -31,9 +31,6 @@ public class UserRewardService {
         UserReward userReward = userRewardRepository.findByUuid(uuid);
         if (userReward == null) {
 
-
-
-
             //populate user reward
             userReward = new UserReward();
             userReward.setUuid(uuid);
@@ -46,14 +43,14 @@ public class UserRewardService {
             userReward.setActive(true);
             userReward.setLmt(5);
 
-            userReward = userRewardRepository.save(userReward);
-
-            Reward reward = new Reward();
+            // rewards
             // complete setting of reward
+            Reward reward = new Reward();
             reward.setDate(new Date());
-            reward.setUserReward(userReward);
             reward.setCnt(1);
-            reward = rewardRepository.save(reward);
+
+            userReward.setRewards(new HashSet<>(Set.of(reward)));
+            userReward = userRewardRepository.save(userReward);
 
         } else {
 
@@ -64,25 +61,20 @@ public class UserRewardService {
             // Increment the count and save it to the newly logged reward
             int newCnt = maxCountReward.map(reward -> reward.getCnt() + 1).orElse(1);
             Reward newReward = new Reward();
+            newReward.setDate(new Date());
             newReward.setCnt(newCnt);
-            newReward.setUserReward(userReward);
+            userReward.setCnt(newCnt);
 
-            // Check if the newly logged reward reached its limit
             if (newCnt > userReward.getLmt()) {
                 throw new Exception("Reward limit reached for this QR code");
             }
 
-
+            userReward.getRewards().add(newReward);
             // Save the new reward
             userReward = userRewardRepository.save(userReward);
 
-            newReward.setUserReward(userReward);
-            // Save the new reward
-            Reward reward = rewardRepository.save(newReward);
 
         }
-
-//        userRewardRepository.findById(userReward.getId());
         return userRewardRepository.findById(userReward.getId()).get();
     }
 

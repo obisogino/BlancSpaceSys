@@ -1,5 +1,6 @@
 package com.blancspace.userrewardsservice.controller;
 
+import com.blancspace.userrewardsservice.dto.UserRewardDto;
 import com.blancspace.userrewardsservice.entity.UserReward;
 import com.blancspace.userrewardsservice.service.UserRewardService;
 import com.blancspace.userrewardsservice.util.UserRewardUtils;
@@ -33,7 +34,10 @@ public class UserRewardController {
             UserReward userReward = userRewardService.logRewardToUserReward(uuid);
             return new ResponseEntity<>(userReward, HttpStatus.OK);
         } catch (Exception e) {
-            return null;
+            var userRewardDto = new UserRewardDto();
+            userRewardDto.setErrorMessage(e.getMessage());
+            return new ResponseEntity<>(userRewardDto, HttpStatus.INTERNAL_SERVER_ERROR);
+//            return null;
 //            return new ResponseEntity<>("Failed to log reward: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
