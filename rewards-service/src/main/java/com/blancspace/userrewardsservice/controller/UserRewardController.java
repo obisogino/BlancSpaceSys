@@ -1,6 +1,7 @@
 package com.blancspace.userrewardsservice.controller;
 
-import com.blancspace.userrewardsservice.dto.UserRewardDto;
+import com.blancspace.userrewardsservice.dto.CreateUserRewardDto;
+import com.blancspace.userrewardsservice.dto.ResponseDto;
 import com.blancspace.userrewardsservice.entity.UserReward;
 import com.blancspace.userrewardsservice.service.UserRewardService;
 import com.blancspace.userrewardsservice.util.UserRewardUtils;
@@ -19,27 +20,46 @@ public class UserRewardController {
         this.userRewardService = userRewardService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/generate-uuid")
-    public ResponseEntity<String> generateUuid() {
-        // generate and return UUID
-
+    @RequestMapping(method = RequestMethod.POST, value = "/reward-generate")
+    public ResponseEntity<String> generateUuid(@RequestBody CreateUserRewardDto createUserRewardDto) {
         return new ResponseEntity<>(UserRewardUtils.generateUUID(), HttpStatus.OK);
-//        return
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/log-reward/{uuid}")
-
-    public ResponseEntity<UserReward> logReward(@PathVariable String uuid) {
+    @RequestMapping(method = RequestMethod.POST, value = "/reward/{uuid}")
+    public ResponseEntity<ResponseDto<UserReward>> logReward(@PathVariable String uuid) {
         try {
+
             UserReward userReward = userRewardService.logRewardToUserReward(uuid);
-            return new ResponseEntity<>(userReward, HttpStatus.OK);
+
+            ResponseDto<UserReward> responseDto = new ResponseDto<>();
+            responseDto.setData(userReward);
+
+            return new ResponseEntity<>(responseDto, HttpStatus.OK);
         } catch (Exception e) {
-            var userRewardDto = new UserRewardDto();
-            userRewardDto.setErrorMessage(e.getMessage());
-            return new ResponseEntity<>(userRewardDto, HttpStatus.INTERNAL_SERVER_ERROR);
-//            return null;
-//            return new ResponseEntity<>("Failed to log reward: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            ResponseDto<UserReward> responseDto = new ResponseDto<>();
+            responseDto.setErrorMessage(e.getMessage());
+
+            return new ResponseEntity<>(responseDto, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/reward/{uuid}")
+    public ResponseEntity<ResponseDto<UserReward>> getRewardFromUuid(@PathVariable String uuid) {
+        try {
+
+            UserReward userReward = userRewardService.getActiveUserRewardByUuid(uuid);
+
+            ResponseDto<UserReward> responseDto = new ResponseDto<>();
+            responseDto.setData(userReward);
+
+            return new ResponseEntity<>(responseDto, HttpStatus.OK);
+        } catch (Exception e) {
+            ResponseDto<UserReward> responseDto = new ResponseDto<>();
+            responseDto.setErrorMessage(e.getMessage());
+
+            return new ResponseEntity<>(responseDto, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 
 }

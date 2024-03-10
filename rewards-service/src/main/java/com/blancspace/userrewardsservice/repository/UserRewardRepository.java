@@ -12,4 +12,6 @@ public interface UserRewardRepository extends JpaRepository<UserReward, Integer>
 
     UserReward findByUuid(String uuid);
 
+    Optional<UserReward> findByUuidAndIsActive(String uuid, boolean active);
+
 }

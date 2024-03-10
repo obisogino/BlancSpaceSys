@@ -83,4 +83,10 @@ public class UserRewardService {
         return ruleSetRepository.findActiveRuleSetByBatchId(batchId);
     }
 
+
+    public UserReward getActiveUserRewardByUuid(String uuid) {
+        return userRewardRepository.findByUuidAndIsActive(uuid, true)
+                .orElseThrow(() -> new RuntimeException("User reward not found"));
+    }
+
 }

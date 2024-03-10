@@ -10,8 +10,6 @@ import java.util.*;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "UserReward")
 public class UserReward {
 
@@ -46,11 +44,9 @@ public class UserReward {
     @Column(name = "isActive")
     private boolean isActive;
 
-//    @JsonManagedReference
     @OneToMany(targetEntity=Reward.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name="reward_fk", referencedColumnName = "id")
     private Set<Reward> rewards;
 
-//    public UserReward(UserReward userReward) {
-//    }
+
 }
