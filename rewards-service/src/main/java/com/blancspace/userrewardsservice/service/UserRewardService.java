@@ -38,8 +38,8 @@ public class UserRewardService {
 
             // rules
             userReward.setUser("test-user");
-            userReward.setRewardPrize("test-prize");
-            userReward.setFull(false);
+//            userReward.setRewardPrize("test-prize");
+            userReward.setStatus("UNCLAIMED");
             userReward.setActive(true);
             userReward.setLmt(5);
 
@@ -67,7 +67,12 @@ public class UserRewardService {
 
             if (newCnt > userReward.getLmt()) {
                 throw new Exception("Reward limit reached for this QR code");
+            } else if(newCnt == userReward.getCnt()) {
+                userReward.setDateFinished(new Date());
+
             }
+
+
 
             userReward.getRewards().add(newReward);
             // Save the new reward

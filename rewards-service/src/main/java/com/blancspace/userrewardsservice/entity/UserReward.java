@@ -1,5 +1,6 @@
 package com.blancspace.userrewardsservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import java.util.*;
 
 @Entity
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Table(name = "UserReward")
 public class UserReward {
 
@@ -35,11 +37,8 @@ public class UserReward {
     @Column(name = "dateFinished")
     private Date dateFinished;
 
-    @Column(name = "isFull")
-    private boolean isFull;
-
-    @Column(name = "rewardPrize")
-    private String rewardPrize;
+    @Column(name = "status")
+    private String status;
 
     @Column(name = "isActive")
     private boolean isActive;
