@@ -24,11 +24,11 @@ public class UserRewardController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/reward-generate")
     public ResponseEntity<Response<String>> generateUuid(@RequestBody CreateUserRewardDto createUserRewardDto) {
-//        Response response = new Response<String>();
-//        response.setBody(UserRewardUtils.generateUUID());
-//        return new ResponseEntity<>(response, HttpStatus.OK);
+        Response response = new Response<String>();
+        response.setBody(UserRewardUtils.generateUUID());
+        return new ResponseEntity<>(response, HttpStatus.OK);
 
-        return ResponseConverter.convert(UserRewardUtils.generateUUID());
+        return ResponseConverter.convert()
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/reward/{uuid}")
